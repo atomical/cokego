@@ -23,7 +23,13 @@ const (
   KCGWindowSharingReadOnly  = C.kCGWindowSharingReadOnly
   KCGWindowSharingReadWrite = C.kCGWindowSharingReadWrite
 )
+//https://developer.apple.com/library/mac/documentation/graphicsimaging/reference/CGImage/Reference/reference.html
+const (
+  KCGBitmapAlphaInfoMask   = C.kCGBitmapAlphaInfoMask
+  KCGImageAlphaFirst       = C.kCGImageAlphaFirst
+  KCGImageAlphaLast      = C.kCGImageAlphaLast
 
+)
 // Window List Option Constants
 // https://developer.apple.com/library/mac/documentation/Carbon/reference/CGWindow_Reference/Constants/Constants.html#//apple_ref/doc/constant_group/Window_List_Option_Constants
 
@@ -137,6 +143,14 @@ func CGWindowListCopyWindowInfo( option C.CGWindowListOption, relativeToWindow C
   return windows
 }
 
+func CGImageGetWidth( image C.CGImageRef ) int {
+  return int(C.CGImageGetWidth( image ))
+}
+
+func CGImageGetHeight( image C.CGImageRef ) int {
+  return int(C.CGImageGetHeight( image ))
+}
+
 func CGRectMakeWithDictionaryRepresentation( dict unsafe.Pointer ) Rect {
   var rect Rect
   var CGRect C.CGRect
@@ -243,6 +257,9 @@ func CGWindowListCreateImageFromArray( windowIds []CGWindowID )  C.CGImageRef {
 
 func CGImageGetBitmapInfo( image C.CGImageRef ) C.CGBitmapInfo {
   return C.CGImageGetBitmapInfo( image )     // CGImage may return pixels in RGBA, BGRA, or ARGB order
+}
+func CGImageGetBitsPerComponent( image C.CGImageRef ) C.size_t {
+  return C.CGImageGetBitsPerComponent( image )
 }
 //CGColorSpaceGetModel(CGImageGetColorSpace(CGImage));
 //size_t CGImageGetBitsPerPixel(CGImage)
